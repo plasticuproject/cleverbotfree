@@ -98,7 +98,6 @@ class Cleverbot:
             break
         botResponse = line.text
         sleep(2)
-        self.browser.close()
         return botResponse
     
 
