@@ -7,7 +7,7 @@ to create applications/bots that send a recieve messages to the Cleverbot <br />
 chatbot application <br />
 
 
-## Instalation
+## Installation
 <b>Requirments</b>
 
 You need to have Python 3.x, pip, and the latest Firefox browser installed. <br />
@@ -22,8 +22,7 @@ Selenium requires a driver to interface with the headless browser. Firefox <br /
 requires geckodriver, which needs to be installed berfore this module can be <br />
 used. Make sure it’s in your PATH, e. g., place it in /usr/bin or /usr/local/bin. <br />
 
-You can download the geckodriver [here] <br />
-[here]: https://github.com/mozilla/geckodriver/releases
+You can download the geckodriver at https://github.com/mozilla/geckodriver/releases <br />
 
 Failure to observe this step will give you the error <br />
 "Message: ‘geckodriver’ executable needs to be in PATH." <br />
