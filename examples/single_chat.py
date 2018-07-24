@@ -3,18 +3,19 @@ Example of a simple CLI script that creates a single use,
 one message chat session.
 '''
 
-from cleverbotfree.cbfree import Cleverbot
+import cleverbotfree.cbfree
+import sys
 
-send = Cleverbot().single_exchange
+cb = cleverbotfree.cbfree.Cleverbot()
 
 
 def main():
-
     userInput = input('User: ')
-    response = send(userInput)
+    response = cb.single_exchange(userInput)
     print(response)
-    Cleverbot().browser.close()
-
-
+    cb.browser.close()
+    sys.exit()
+    
+    
 if __name__ == '__main__':
     main()
