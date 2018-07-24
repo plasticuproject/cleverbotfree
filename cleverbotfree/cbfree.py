@@ -1,7 +1,8 @@
 '''
 This module is a free alternative to Cleverbot.com's subscription API.
-It uses a headless Firefox browser to run Cleverbots JavaScript code
-and send and retrive for data HTML elements.
+It uses a headless Firefox browser to run Cleverbot's JavaScript code
+and send and retreive to/from HTML elements.
+
 Copyright (C) 2018  plasticuproject@pm.me
 
 This program is free software: you can redistribute it and/or modify
@@ -32,9 +33,6 @@ class Cleverbot:
     selenium, and contains the functions to connect and create chat
     sessions. Every request has the possiblity for a BrokenPipeError
     so I looped all requests until there is no error recieved.
-
-    :param userInput: str being sent to Cleverbot chat app
-    :param return: str response from Cleverbot chat app
     '''
 
     def __init__(self):
@@ -87,17 +85,16 @@ class Cleverbot:
                     '''
 
                     line = self.browser.find_element_by_id('line1')
-                    sleep(2)
+                    sleep(3)
                     newLine = self.browser.find_element_by_id('line1')
                     if line.text != newLine and newLine.text != ' ' and newLine.text != '':
                         line = self.browser.find_element_by_id('line1')
-                        sleep(2)
+                        sleep(3)
                         break
             except BrokenPipeError:
                 continue
             break
         botResponse = line.text
-        sleep(2)
         return botResponse
     
 
@@ -144,7 +141,7 @@ class Cleverbot:
                     newLine = self.browser.find_element_by_id('line1')
                     if line.text != newLine and newLine.text != ' ' and newLine.text != '':
                         line = self.browser.find_element_by_id('line1')
-                        sleep(2)
+                        sleep(3)
                         break
             except BrokenPipeError:
                 continue
