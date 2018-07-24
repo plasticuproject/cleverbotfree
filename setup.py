@@ -1,11 +1,11 @@
 from setuptools import setup
 
-version = '1.0.3'
+version = '1.0.4'
 
 setup(name='cleverbotfree',
       packages=['cleverbotfree'],
       version=version,
-      description='Free Alternative API For Cleverbot',
+      description='Free Alternative For The Cleverbot API',
       long_description=open('README.md').read(),
       long_description_content_type='text/markdown',
       author='plasticuproject',
@@ -22,7 +22,7 @@ setup(name='cleverbotfree',
           'Topic :: Communications :: Chat',
           'Topic :: Utilities'
       ],
-      license='GPL3',
+      license='GPLv3',
       install_requires=['selenium'],
       zip_safe=False,
 include_package_data=True)
