@@ -19,7 +19,7 @@ pip install cleverbotfree
 <b>Drivers</b>
 
 Selenium requires a driver to interface with the headless browser. Firefox <br />
-requires geckodriver, which needs to be installed berfore this module can be <br />
+requires geckodriver, which needs to be installed before this module can be <br />
 used. Make sure it’s in your PATH, e. g., place it in /usr/bin or /usr/local/bin. <br />
 
 You can download the geckodriver at https://github.com/mozilla/geckodriver/releases <br />
@@ -33,14 +33,16 @@ Failure to observe this step will give you the error <br />
 
 Example of a simple CLI script that creates a single use, one message chat session. <br />
 ```python
-from cleverbotfree.cbfree import Cleverbot
-send = Cleverbot().single_exchange
+import cleverbotfree.cbfree
+import sys
+cb = cleverbotfree.cbfree.Cleverbot()
 
 def chat():
     userInput = input('User: ')
-    response = send(userInput)
+    response = cb.single_exchange(userInput)
     print(response)
-    Cleverbot().browser.close()
+    cb.browser.close()
+    sys.exit()
 
 chat()
 ```
@@ -48,24 +50,27 @@ chat()
 Example of a simple CLI script that creates a persistent chat session untill closed. <br />
 ```python
 import cleverbotfree.cbfree
+import sys
 cb = cleverbotfree.cbfree.Cleverbot()
 
 def chat():
     try:
-        print('[-] Connecting to Cleverbot.com...\n')
         cb.browser.get(cb.url)
-        print('[-] Type "quit" at any time to exit.\n')
-        while True:
+    except:
+        cb.browser.close()
+        sys.exit()
+    while True:
+        try:
             cb.get_form()
-            userInput = input('User: ')
-            if userInput == 'quit':
-                break
-            cb.send_input(userInput)
-            print('\nCleverbot: ' + cb.get_response() + '\n')
-        cb.browser.close()
-    except KeyboardInterrupt:
-        print('\nThanks for chatting!\n')
-        cb.browser.close()
+        except:
+            sys.exit()
+        userInput = input('User: ')
+        if userInput == 'quit':
+            break
+        cb.send_input(userInput)
+        bot = cb.get_response()
+        print('Cleverbot: ', bot)
+    cb.browser.close()
 
 chat()
 ```
