@@ -21,9 +21,6 @@ from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.common.keys import Keys
 from time import sleep
 
-elem = 0           # initialize varibles for
-botResponse = 0    # globalization
-
 
 class Cleverbot:
 
@@ -44,6 +41,57 @@ class Cleverbot:
         self.url = 'https://www.cleverbot.com'
 
     
+    def get_form(self):
+
+        # find the form tag to enter your message
+        while True:
+            try:
+                self.elem = self.browser.find_element_by_class_name('stimulus')
+            except BrokenPipeError:
+                continue
+            break
+
+
+    def send_input(self, userInput):
+
+        # submits your message
+        while True:
+            try:
+                self.elem.send_keys(userInput + Keys.RETURN)
+            except BrokenPipeError:
+                continue
+            break
+
+
+    def get_response(self):
+
+        '''
+        The DOM is updated with every individual character
+        recieved from the Cleverbot app. This tries to make 
+        sure that the DOM element has recieve the full text
+        before continuing the function.
+        '''
+
+        # retrieves Cleverbots response message
+        while True:
+            try:
+                while True:
+
+                    # tries to collect the full response
+                    line = self.browser.find_element_by_id('line1')
+                    sleep(3)
+                    newLine = self.browser.find_element_by_id('line1')
+                    if line.text != newLine and newLine.text != ' ' and newLine.text != '':
+                        line = self.browser.find_element_by_id('line1')
+                        sleep(3)
+                        break
+            except BrokenPipeError:
+                continue
+            break
+        self.botResponse = line.text
+        return self.botResponse
+
+
     def single_exchange(self, userInput):
 
         '''
@@ -61,90 +109,8 @@ class Cleverbot:
             except BrokenPipeError:
                 continue
             break
-        while True:
-            try:
-                elem = self.browser.find_element_by_class_name('stimulus')
-            except BrokenPipeError:
-                continue
-            break
-        while True:
-            try:
-                elem.send_keys(userInput + Keys.RETURN)
-            except BrokenPipeError:
-                continue
-            break
-        while True:
-            try:
-                while True:
+        self.get_form()
+        self.send_input(userInput)
+        self.get_response()
+        return self.botResponse
 
-                    '''
-                    The DOM is updated with every individual character
-                    recieved from the Cleverbot app. This tries to make 
-                    sure that the DOM element has recieved the full text
-                    before continuing the function.
-                    '''
-
-                    line = self.browser.find_element_by_id('line1')
-                    sleep(3)
-                    newLine = self.browser.find_element_by_id('line1')
-                    if line.text != newLine and newLine.text != ' ' and newLine.text != '':
-                        line = self.browser.find_element_by_id('line1')
-                        sleep(3)
-                        break
-            except BrokenPipeError:
-                continue
-            break
-        botResponse = line.text
-        return botResponse
-    
-
-    def get_form(self):
-
-        # find the form tag to enter your message
-        global elem
-        while True:
-            try:
-                elem = self.browser.find_element_by_class_name('stimulus')
-            except BrokenPipeError:
-                continue
-            break
-
-
-    def send_input(self, userInput):
-
-        # submits your message
-        while True:
-            try:
-                elem.send_keys(userInput + Keys.RETURN)
-            except BrokenPipeError:
-                continue
-            break
-
-
-    def get_response(self):
-
-        # retrieves Cleverbots response message
-        global botResponse
-        while True:
-            try:
-                while True:
-
-                    '''
-                    The DOM is updated with every individual character
-                    recieved from the Cleverbot app. This tries to make 
-                    sure that the DOM element has recieve the full text
-                    before continuing the function.
-                    '''
-
-                    line = self.browser.find_element_by_id('line1')
-                    sleep(3)
-                    newLine = self.browser.find_element_by_id('line1')
-                    if line.text != newLine and newLine.text != ' ' and newLine.text != '':
-                        line = self.browser.find_element_by_id('line1')
-                        sleep(3)
-                        break
-            except BrokenPipeError:
-                continue
-            break
-        botResponse = line.text
-        return botResponse
