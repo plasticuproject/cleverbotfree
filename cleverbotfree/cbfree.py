@@ -41,7 +41,7 @@ class Cleverbot:
         self.opts = Options()
         self.opts.add_argument("--headless")
         self.browser = webdriver.Firefox(options=self.opts)
-        self.url = 'https://cleverbot.com'
+        self.url = 'https://www.cleverbot.com'
 
     
     def single_exchange(self, userInput):
