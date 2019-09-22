@@ -20,6 +20,7 @@ from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.common.keys import Keys
 from time import sleep
+import re
 
 
 class Cleverbot:
@@ -39,6 +40,7 @@ class Cleverbot:
         self.opts.add_argument("--headless")
         self.browser = webdriver.Firefox(options=self.opts)
         self.url = 'https://www.cleverbot.com'
+        self.hacking = False
 
     
     def get_form(self):
@@ -55,6 +57,11 @@ class Cleverbot:
     def send_input(self, userInput):
 
         # submits your message
+        fOne = '<\/?[a-z]+>|<DOCTYPE'
+        fTwo = '/<[^>]+>/g'
+        if re.search(fOne, userInput) != None or re.search(fTwo, userInput) != None:
+            self.hacking = True
+            userInput = 'I will hack you'
         while True:
             try:
                 self.elem.send_keys(userInput + Keys.RETURN)
@@ -73,7 +80,7 @@ class Cleverbot:
         '''
 
         # retrieves Cleverbots response message
-        while True:
+        while self.hacking == False:
             try:
                 while True:
 
@@ -88,7 +95,11 @@ class Cleverbot:
             except BrokenPipeError:
                 continue
             break
-        self.botResponse = line.text
+        if self.hacking == True:
+            self.botResponse = 'Silly rabbit, html is for skids.'
+        elif self.hacking == False:
+            self.botResponse = line.text
+        self.hacking = False
         return self.botResponse
 
 
