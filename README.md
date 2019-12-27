@@ -1,3 +1,7 @@
+> **Note:**
+> Please upgrade to the latest version of cleverbotfree, as cleverbot.com has  <br />
+> made changes that break previous releases. <br />
+
 # cleverbotfree
 Cleverbot.com used to have a free API for their chatbot application. They have <br />
 removed their free API in place of a tiered subscription API service. <br />
