@@ -1,6 +1,6 @@
 from setuptools import setup
 
-version = '1.2'
+version = '1.2.1'
 
 setup(name='cleverbotfree',
       packages=['cleverbotfree'],

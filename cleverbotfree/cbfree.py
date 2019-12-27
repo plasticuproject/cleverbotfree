@@ -19,6 +19,7 @@ GNU General Public License for more details.
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.common.keys import Keys
+from selenium.common.exceptions import StaleElementReferenceException
 from time import sleep
 import re
 
@@ -41,6 +42,7 @@ class Cleverbot:
         self.browser = webdriver.Firefox(options=self.opts)
         self.url = 'https://www.cleverbot.com'
         self.hacking = False
+        self.count = -1
 
     
     def get_form(self):
@@ -85,13 +87,17 @@ class Cleverbot:
                 while True:
 
                     # tries to collect the full response
-                    line = self.browser.find_element_by_id('line1')
-                    sleep(3)
-                    newLine = self.browser.find_element_by_id('line1')
-                    if line.text != newLine and newLine.text != ' ' and newLine.text != '':
+                    try:
                         line = self.browser.find_element_by_id('line1')
                         sleep(3)
-                        break
+                        newLine = self.browser.find_element_by_id('line1')
+                        if line.text != newLine and newLine.text != ' ' and newLine.text != '':
+                            line = self.browser.find_element_by_id('line1')
+                            sleep(3)
+                            break
+                    except StaleElementReferenceException:
+                        self.url = self.url + '/?' + str(int(self.count + 1))
+                        continue
             except BrokenPipeError:
                 continue
             break
