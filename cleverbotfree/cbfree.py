@@ -48,6 +48,11 @@ class Cleverbot:
     def get_form(self):
 
         # find the form tag to enter your message
+        try:
+            self.browser.find_element_by_id('noteb').click()
+        except:
+            pass
+
         while True:
             try:
                 self.elem = self.browser.find_element_by_class_name('stimulus')
