@@ -31,7 +31,7 @@ class Cleverbot:
     to connect to Cleverbot.com via a headless Firefox browser using
     selenium, and contains the functions to connect and create chat
     sessions. Every request has the possiblity for a BrokenPipeError
-    so I looped all requests until there is no error recieved.
+    so I looped all requests until there is no error received.
     '''
 
     def __init__(self):
@@ -81,8 +81,8 @@ class Cleverbot:
 
         '''
         The DOM is updated with every individual character
-        recieved from the Cleverbot app. This tries to make 
-        sure that the DOM element has recieve the full text
+        received from the Cleverbot app. This tries to make 
+        sure that the DOM element has receive the full text
         before continuing the function.
         '''
 
@@ -117,7 +117,7 @@ class Cleverbot:
     def single_exchange(self, userInput):
 
         '''
-        This fuction is used to create a single send a recieve chat
+        This fuction is used to create a single send a receive chat
         session via a headless Firefox browser, sending your input
         as an argument to the DOM Form to be passed to the JS
         cleverbot.sendAI() function and retrieving it's response

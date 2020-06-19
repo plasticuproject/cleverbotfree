@@ -6,7 +6,7 @@ Cleverbot.com used to have a free API for their chatbot application. They have <
 removed their free API in place of a tiered subscription API service. <br />
 cleverbotfree is a free alternative to that API that uses a headless Firefox <br />
 browser to communicate with their chatbot application. You can use this module <br />
-to create applications/bots that send and recieve messages to the Cleverbot <br />
+to create applications/bots that send and receive messages to the Cleverbot <br />
 chatbot application <br />
 
 
