@@ -19,7 +19,7 @@ GNU General Public License for more details.
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.common.keys import Keys
-from selenium.common.exceptions import StaleElementReferenceException
+from selenium.common.exceptions import StaleElementReferenceException, NoSuchElementException
 from time import sleep
 import re
 
@@ -87,13 +87,12 @@ class Cleverbot:
             try:
                 while True:
                     try:
-                        if "opacity: 1" in cb.browser.find_element_by_xpath("//span[@id='snipTextIcon']").get_attribute(
+                        if "opacity: 0" in self.browser.find_element_by_xpath("//span[@id='snipTextIcon']").get_attribute(
                                 "style"):
                             line = self.browser.find_element_by_id('line1')
                             break
                     except NoSuchElementException:
                         continue
-
             except BrokenPipeError:
                 continue
             break
