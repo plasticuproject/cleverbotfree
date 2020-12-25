@@ -19,13 +19,12 @@ GNU General Public License for more details.
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.common.keys import Keys
-from selenium.common.exceptions import StaleElementReferenceException
+from selenium.common.exceptions import StaleElementReferenceException, NoSuchElementException
 from time import sleep
 import re
 
 
 class Cleverbot:
-
     '''
     Constructs a Cleverbot chat session. Initializes the options
     to connect to Cleverbot.com via a headless Firefox browser using
@@ -44,7 +43,6 @@ class Cleverbot:
         self.hacking = False
         self.count = -1
 
-    
     def get_form(self):
 
         # find the form tag to enter your message
@@ -59,7 +57,6 @@ class Cleverbot:
             except BrokenPipeError:
                 continue
             break
-
 
     def send_input(self, userInput):
 
@@ -76,7 +73,6 @@ class Cleverbot:
                 continue
             break
 
-
     def get_response(self):
 
         '''
@@ -90,29 +86,22 @@ class Cleverbot:
         while self.hacking == False:
             try:
                 while True:
-
-                    # tries to collect the full response
                     try:
-                        line = self.browser.find_element_by_id('line1')
-                        sleep(3)
-                        newLine = self.browser.find_element_by_id('line1')
-                        if line.text != newLine and newLine.text != ' ' and newLine.text != '':
+                        if "opacity: 0" in self.browser.find_element_by_xpath("//span[@id='snipTextIcon']").get_attribute(
+                                "style"):
                             line = self.browser.find_element_by_id('line1')
-                            sleep(3)
                             break
-                    except StaleElementReferenceException:
-                        self.url = self.url + '/?' + str(int(self.count + 1))
+                    except NoSuchElementException:
                         continue
             except BrokenPipeError:
                 continue
             break
-        if self.hacking == True:
+        if self.hacking:
             self.botResponse = 'Silly rabbit, html is for skids.'
-        elif self.hacking == False:
+        elif not self.hacking:
             self.botResponse = line.text
         self.hacking = False
         return self.botResponse
-
 
     def single_exchange(self, userInput):
 
@@ -135,4 +124,3 @@ class Cleverbot:
         self.send_input(userInput)
         self.get_response()
         return self.botResponse
-
