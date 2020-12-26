@@ -20,7 +20,6 @@ from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import StaleElementReferenceException
-from selenium.common.exceptions import NoSuchElementException
 from time import sleep
 import re
 
@@ -84,16 +83,18 @@ class Cleverbot:
         '''
 
         # retrieves Cleverbots response message
-        while self.hacking == False:
+        while self.hacking is False:
             try:
                 while True:
+                    # tries to collect the full response
                     try:
-                        if "opacity: 0.1" in self.browser.find_element_by_xpath("//span[@id='snipTextIcon']").get_attribute(
-                                "style"):
+                        line = self.browser.find_element_by_id('line1')
+                        sleep(3)
+                        newLine = self.browser.find_element_by_id('line1')
+                        if line.text != newLine and newLine.text != ' ' and newLine.text != '':
                             line = self.browser.find_element_by_id('line1')
+                            sleep(3)
                             break
-                    except NoSuchElementException:
-                        continue
                     except StaleElementReferenceException:
                         self.url = self.url + '/?' + str(int(self.count + 1))
                         continue
