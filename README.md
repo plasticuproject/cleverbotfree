@@ -1,6 +1,10 @@
+[![Python 3.7](https://img.shields.io/badge/python-3.6+-blue.svg)](https://www.python.org/downloads/release/python-370/)
 [![GPLv3 license](https://img.shields.io/badge/License-GPLv3-blue.svg)](http://perso.crans.org/besson/LICENSE.html)
 [![PyPI version](https://badge.fury.io/py/cleverbotfree.svg)](https://badge.fury.io/py/cleverbotfree)
 [![Downloads](https://pepy.tech/badge/cleverbotfree)](https://pepy.tech/project/cleverbotfree)
+[![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/plasticuproject/cleverbotfree.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/plasticuproject/cleverbotfree/context:python)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=plasticuproject_cleverbotfree&metric=alert_status)](https://sonarcloud.io/dashboard?id=plasticuproject_cleverbotfree)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=plasticuproject_cleverbotfree&metric=security_rating)](https://sonarcloud.io/dashboard?id=plasticuproject_cleverbotfree)
 # cleverbotfree
 Cleverbot.com used to have a free API for their chatbot application. They have <br />
 removed their free API in place of a tiered subscription API service. <br />

@@ -12,22 +12,19 @@ cb = cleverbotfree.cbfree.Cleverbot()
 def main():
     try:
         cb.browser.get(cb.url)
-    except:
+        while True:
+            cb.get_form()
+            userInput = input('User: ')
+            if userInput == 'quit':
+                break
+            cb.send_input(userInput)
+            bot = cb.get_response()
+            print('Cleverbot: ', bot)
+        cb.browser.close()
+    except KeyboardInterrupt:
         cb.browser.close()
         sys.exit()
-    while True:
-        try:
-            cb.get_form()
-        except:
-            sys.exit()
-        userInput = input('User: ')
-        if userInput == 'quit':
-            break
-        cb.send_input(userInput)
-        bot = cb.get_response()
-        print('Cleverbot: ', bot)
-    cb.browser.close()
 
-    
+
 if __name__ == '__main__':
     main()

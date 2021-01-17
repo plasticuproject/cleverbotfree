@@ -20,6 +20,7 @@ from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import StaleElementReferenceException
+from selenium.common.exceptions import ElementNotInteractableException
 from time import sleep
 import re
 
@@ -48,7 +49,7 @@ class Cleverbot:
         # find the form tag to enter your message
         try:
             self.browser.find_element_by_id('noteb').click()
-        except:
+        except ElementNotInteractableException:
             pass
 
         while True:
