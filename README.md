@@ -39,9 +39,11 @@ playwright install firefox
 
 Example of a simple CLI script that creates a single use, one message chat session. <br />
 ```python
+import asyncio
 import cleverbotfree
 
 def chat():
+    """Example code using cleverbotfree sync api."""
     with cleverbotfree.sync_playwright() as p_w:
         c_b = cleverbotfree.Cleverbot(p_w)
         user_input = input("User: ")
@@ -50,12 +52,23 @@ def chat():
         c_b.browser.close()
 
 chat()
+
+async def aysnc_chat():
+    """Example code using cleverbotfree async api."""
+    async with cleverbotfree.async_playwright() as p_w:
+        c_b = await cleverbotfree.CleverbotAsync(p_w)
+        user_input = input("User: ")
+        response = await c_b.single_exchange(user_input)
+        print("Cleverbot:", response)
+        await c_b.browser.close()
+
+asyncio.run(async_chat())
 ```
 
 Example of a simple CLI script that creates a persistent chat session untill closed. <br />
 ```python
+import asyncio
 import cleverbotfree
-
 
 def chat():
     with cleverbotfree.sync_playwright() as p_w:
@@ -70,4 +83,19 @@ def chat():
         c_b.browser.close()
 
 chat()
+
+async def async_chat():
+    """Example code using cleverbotfree async api."""
+    async with cleverbotfree.async_playwright() as p_w:
+        c_b = await cleverbotfree.CleverbotAsync(p_w)
+        while True:
+            user_input = input("User: ")
+            if user_input == 'quit':
+                break
+            await c_b.send_input(user_input)
+            bot = await c_b.get_response()
+            print('Cleverbot:', bot)
+        await c_b.browser.close()
+
+aysncio.run(async_chat())
 ```
