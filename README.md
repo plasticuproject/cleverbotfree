@@ -97,5 +97,5 @@ async def async_chat():
             print('Cleverbot:', bot)
         await c_b.browser.close()
 
-aysncio.run(async_chat())
+asyncio.run(async_chat())
 ```
