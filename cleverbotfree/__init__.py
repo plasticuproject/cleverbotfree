@@ -76,7 +76,7 @@ class Cleverbot():
                     line: str = self.page.text_content('id=line1')
                     sleep(3)
                     new_line: str = self.page.text_content('id=line1')
-                    if line != new_line and new_line != ' ' or new_line != '':
+                    if line != new_line and new_line != '':
                         line: str = self.page.text_content('id=line1')
                         sleep(3)
                         break
