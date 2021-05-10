@@ -1,1 +1,2 @@
-selenium==3.13.0
+fake-useragent==0.1.11
+playwright==1.10.0

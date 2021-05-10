@@ -3,27 +3,21 @@ Example of a simple CLI script that creates a persistent
 chat session untill closed.
 '''
 
-import cleverbotfree.cbfree
-import sys
-
-cb = cleverbotfree.cbfree.Cleverbot()
+import cleverbotfree
 
 
 def main():
-    try:
-        cb.browser.get(cb.url)
+    """Example code."""
+    with cleverbotfree.sync_playwright() as p_w:
+        c_b = cleverbotfree.Cleverbot(p_w)
         while True:
-            cb.get_form()
-            userInput = input('User: ')
-            if userInput == 'quit':
+            user_input = input("User: ")
+            if user_input == 'quit':
                 break
-            cb.send_input(userInput)
-            bot = cb.get_response()
+            c_b.send_input(user_input)
+            bot = c_b.get_response()
             print('Cleverbot: ', bot)
-        cb.browser.close()
-    except KeyboardInterrupt:
-        cb.browser.close()
-        sys.exit()
+        c_b.browser.close()
 
 
 if __name__ == '__main__':

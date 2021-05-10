@@ -1,4 +1,4 @@
-[![Python 3.7](https://img.shields.io/badge/python-3.6+-blue.svg)](https://www.python.org/downloads/release/python-370/)
+[![Python 3.8](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/release/python-380/)
 [![GPLv3 license](https://img.shields.io/badge/License-GPLv3-blue.svg)](http://perso.crans.org/besson/LICENSE.html)
 [![PyPI version](https://badge.fury.io/py/cleverbotfree.svg)](https://badge.fury.io/py/cleverbotfree)
 [![Downloads](https://pepy.tech/badge/cleverbotfree)](https://pepy.tech/project/cleverbotfree)
@@ -11,70 +11,63 @@ removed their free API in place of a tiered subscription API service. <br />
 cleverbotfree is a free alternative to that API that uses a headless Firefox <br />
 browser to communicate with their chatbot application. You can use this module <br />
 to create applications/bots that send and receive messages to the Cleverbot <br />
-chatbot application <br />
+chatbot application. <br />
 
 
 ## Installation
-<b>Requirments</b>
-
-You need to have Python 3.x, pip, and the latest Firefox browser installed. <br />
-Once installed, you can install this library through pip. <br />
+### Requirments
+- node >= 14.16.1
+- Python >= 3.8.0
+- python3-pip >= 21.1.1
+ 
+Once requirments are met, you can install this library through pip. <br />
 ```
 pip install cleverbotfree
 ```
 
-<b>Drivers</b>
-
-Selenium requires a driver to interface with the headless browser. Firefox <br />
-requires geckodriver, which needs to be installed before this module can be <br />
-used. Make sure it’s in your PATH, e. g., place it in /usr/bin or /usr/local/bin. <br />
-
-You can download the geckodriver at https://github.com/mozilla/geckodriver/releases <br />
-
-Failure to observe this step will give you the error <br />
-"Message: ‘geckodriver’ executable needs to be in PATH." <br />
-
+### Drivers
+This library uses the Playwright library to interface the Cleverbot website <br />
+with a headless Firefox browser. <br />
+To download the Playwright Firefox browser binary simply run this command after <br />
+installing cleverbotfree: <br />
+```
+playwright install firefox
+```
 
 ## Usage
 <b>Examples</b>
 
 Example of a simple CLI script that creates a single use, one message chat session. <br />
 ```python
-import cleverbotfree.cbfree
-import sys
-cb = cleverbotfree.cbfree.Cleverbot()
+import cleverbotfree
 
 def chat():
-    userInput = input('User: ')
-    response = cb.single_exchange(userInput)
-    print(response)
-    cb.browser.close()
-    sys.exit()
+    with cleverbotfree.sync_playwright() as p_w:
+        c_b = cleverbotfree.Cleverbot(p_w)
+        user_input = input("User: ")
+        response = c_b.single_exchange(user_input)
+        print("Cleverbot:", response)
+        c_b.browser.close()
 
 chat()
 ```
 
 Example of a simple CLI script that creates a persistent chat session untill closed. <br />
 ```python
-import cleverbotfree.cbfree
-import sys
-cb = cleverbotfree.cbfree.Cleverbot()
+import cleverbotfree
+
 
 def chat():
-    try:
-        cb.browser.get(cb.url)
+    with cleverbotfree.sync_playwright() as p_w:
+        c_b = cleverbotfree.Cleverbot(p_w)
         while True:
-            cb.get_form()
-            userInput = input('User: ')
-            if userInput == 'quit':
+            user_input = input("User: ")
+            if user_input == 'quit':
                 break
-            cb.send_input(userInput)
-            bot = cb.get_response()
-            print('Cleverbot: ', bot)
-        cb.browser.close()
-    except KeyboardInterrupt:
-        cb.browser.close()
-        sys.exit()
+            c_b.send_input(user_input)
+            bot = c_b.get_response()
+            print('Cleverbot:', bot)
+        c_b.browser.close()
 
 chat()
 ```
