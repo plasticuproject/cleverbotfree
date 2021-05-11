@@ -37,12 +37,13 @@ playwright install firefox
 ## Usage
 <b>Examples</b>
 
-Example of a simple CLI script that creates a persistent chat session untill closed. <br />
+Example of a simple CLI script that creates a persistent chat session until closed. <br />
 ```python
 import asyncio
 import cleverbotfree
 
 def chat():
+    """Example code using cleverbotfree sync api."""
     with cleverbotfree.sync_playwright() as p_w:
         c_b = cleverbotfree.Cleverbot(p_w)
         while True:
