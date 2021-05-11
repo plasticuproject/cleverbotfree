@@ -1,7 +1,7 @@
 '''
 This module is a free alternative to Cleverbot.com's subscription API.
 It uses a headless Firefox browser to run Cleverbot's JavaScript code
-and retrieve HTML elements.
+and retrieve a reply.
 
 Copyright (C) 2021  plasticuproject@pm.me
 
@@ -129,7 +129,7 @@ class CleverbotAsync(AsyncObject):
     async def __init__(self, p_w: object):
         """ Initialize playwright and connect to cleverbot.com."""
         self.p_w: object = p_w
-        self.url: str = 'https://www.cleverbot.com'
+        self.url: str = "https://www.cleverbot.com"
         self.hacking: bool = False
         self.bot_response: str = ""
         self.browser: object = await self.p_w.firefox.launch()
@@ -190,7 +190,6 @@ class CleverbotAsync(AsyncObject):
             line: str = await self.page.text_content("id=line1")
             await asyncio.sleep(0.1)
         await self.page.close()
-
         return self.bot_response
 
     async def single_exchange(self, user_input: str) -> str:
