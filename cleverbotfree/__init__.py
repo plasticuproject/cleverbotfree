@@ -19,6 +19,7 @@ GNU General Public License for more details.
 import re
 import asyncio
 from time import sleep
+from functools import wraps
 from playwright.sync_api import sync_playwright
 from playwright.async_api import async_playwright
 from playwright._impl._api_types import TimeoutError as PwTimeout
@@ -29,27 +30,42 @@ class AsyncObject(object):
     """Inheriting this class allows me to define an async
     __init__, So you can create an async Cleverbot object
     by doing `await CleverbotAsync(p_w)`"""
+
+    # pylint: disable=too-few-public-methods
+    # Because we've created an async init hack
     async def __new__(cls, *a, **kw):
         instance = super().__new__(cls)
         await instance.__init__(*a, **kw)
         return instance
 
     async def __init__(self):
+        """Async init."""
         pass
 
 
-class Cleverbot():
+class Cleverbot(object):
     """ Constructs a Cleverbot chat session. Initializes the options
     to connect to Cleverbot.com via a headless Firefox browser using
     playwright, and contains the functions to connect and create chat
     sessions. Every request has the possiblity for a BrokenPipeError
     so I looped all requests until there is no error received."""
+
+    # pylint: disable=too-many-instance-attributes
+    # Eight is reasonable in this case.
+
+    # pylint: disable=unnecessary-lambda
+    # It is in fact necessary.
+
+    # pylint: disable=attribute-defined-outside-init
+    # This needs to be defined here to work properly
     def __init__(self, p_w: object):
         """ Initialize playwright and connect to cleverbot.com."""
         self.p_w: object = p_w
         self.url: str = "https://www.cleverbot.com"
+        self.reply: str = "id=line1"
         self.hacking: bool = False
         self.bot_response: str = ""
+        self.response_string: str = ""
         self.browser: object = self.p_w.firefox.launch()
         self.context: object = self.browser.new_context(
             user_agent=UserAgent().random)
@@ -103,9 +119,9 @@ class Cleverbot():
             return "No hax bro."
         self.page.on("response",
                      lambda response: self._parse_response(response))
-        line: str = self.page.text_content("id=line1")
+        line: str = self.page.text_content(self.reply)
         while len(line) <= 1 and line != self.bot_response:
-            line: str = self.page.text_content("id=line1")
+            line: str = self.page.text_content(self.reply)
             sleep(0.1)
         self.page.close()
         return self.bot_response
@@ -117,7 +133,26 @@ class Cleverbot():
         retrieving it's reply."""
         self.get_form()
         self.send_input(user_input)
-        return self.get_response()
+        reply: str = self.get_response()
+        if reply == "":
+            self.single_exchange(user_input)
+        return reply
+
+    def close(self):
+        """Close the headless browser."""
+        self.browser.close()
+
+    @staticmethod
+    def connect(func):
+        """Decorator for connecting and starting a browser session."""
+        @wraps(func)
+        def inner(*args, **kwargs):
+            """Initialize playwright."""
+            with sync_playwright() as p_w:
+                c_b = Cleverbot(p_w)
+                return func(c_b, *args, **kwargs)
+
+        return inner
 
 
 class CleverbotAsync(AsyncObject):
@@ -126,10 +161,23 @@ class CleverbotAsync(AsyncObject):
     playwright, and contains the functions to connect and create chat
     sessions. Every request has the possiblity for a BrokenPipeError
     so I looped all requests until there is no error received."""
+
+    # pylint: disable=super-init-not-called
+    # This is a hack to make an async init.
+
+    # pylint: disable=too-many-instance-attributes
+    # Eight is reasonable in this case.
+
+    # pylint: disable=unnecessary-lambda
+    # It is in fact necessary.
+
+    # pylint: disable=attribute-defined-outside-init
+    # This needs to be defined here to work properly
     async def __init__(self, p_w: object):
         """ Initialize playwright and connect to cleverbot.com."""
         self.p_w: object = p_w
         self.url: str = "https://www.cleverbot.com"
+        self.reply: str = "id=line1"
         self.hacking: bool = False
         self.bot_response: str = ""
         self.browser: object = await self.p_w.firefox.launch()
@@ -185,9 +233,9 @@ class CleverbotAsync(AsyncObject):
             return "No hax bro."
         self.page.on("response",
                      lambda response: self._parse_response(response))
-        line: str = await self.page.text_content("id=line1")
+        line: str = await self.page.text_content(self.reply)
         while len(line) <= 1 and line != self.bot_response:
-            line: str = await self.page.text_content("id=line1")
+            line: str = await self.page.text_content(self.reply)
             await asyncio.sleep(0.1)
         await self.page.close()
         return self.bot_response
@@ -199,4 +247,23 @@ class CleverbotAsync(AsyncObject):
         retrieving it's reply."""
         await self.get_form()
         await self.send_input(user_input)
-        return await self.get_response()
+        reply: str = await self.get_response()
+        if reply == "":
+            await self.single_exchange(user_input)
+        return reply
+
+    async def close(self):
+        """Close the headless browser."""
+        await self.browser.close()
+
+    @staticmethod
+    def connect(func):
+        """Decorator for connecting and starting a browser session."""
+        @wraps(func)
+        async def inner(*args, **kwargs):
+            """Initialize playwright"""
+            async with async_playwright() as p_w:
+                c_b = await CleverbotAsync(p_w)
+                return await func(c_b, *args, **kwargs)
+
+        return inner
