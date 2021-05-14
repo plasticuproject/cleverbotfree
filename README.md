@@ -52,7 +52,7 @@ def chat():
                 break
             bot = c_b.single_exchange(user_input)
             print('Cleverbot:', bot)
-        c_b.browser.close()
+        c_b.close()
 
 chat()
 
@@ -67,7 +67,7 @@ async def async_chat():
                 break
             bot = await c_b.single_exchange(user_input)
             print('Cleverbot:', bot)
-        await c_b.browser.close()
+        await c_b.close()
 
 asyncio.run(async_chat())
 ```
