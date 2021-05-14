@@ -155,7 +155,7 @@ class Cleverbot(object):
         return inner
 
 
-class CleverbotAsync(AsyncObject):
+class CleverbotAsync(AsyncObject): # lgtm[py/missing-call-to-init]
     """ Constructs a Cleverbot chat session. Initializes the options
     to connect to Cleverbot.com via a headless Firefox browser using
     playwright, and contains the functions to connect and create chat
