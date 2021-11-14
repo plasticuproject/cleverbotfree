@@ -26,12 +26,13 @@ from playwright._impl._api_types import TimeoutError as PwTimeout
 from fake_useragent import UserAgent
 
 
-class AsyncObject(object):
+class AsyncObject():
     """Inheriting this class allows me to define an async
     __init__, So you can create an async Cleverbot object
     by doing `await CleverbotAsync(p_w)`"""
 
     # pylint: disable=too-few-public-methods
+    # pylint: disable=invalid-overridden-method
     # Because we've created an async init hack
     async def __new__(cls, *a, **kw):
         instance = super().__new__(cls)
@@ -40,10 +41,9 @@ class AsyncObject(object):
 
     async def __init__(self):
         """Async init."""
-        pass
 
 
-class Cleverbot(object):
+class Cleverbot():
     """ Constructs a Cleverbot chat session. Initializes the options
     to connect to Cleverbot.com via a headless Firefox browser using
     playwright, and contains the functions to connect and create chat
@@ -77,7 +77,7 @@ class Cleverbot(object):
                 self.page: object = self.context.new_page()
                 self.page.goto(self.url,
                                timeout=10000,
-                               wait_until="domcontentloaded")
+                               wait_until="networkidle")
             except (PwTimeout, BrokenPipeError):
                 self.page.close()
                 continue
@@ -155,7 +155,7 @@ class Cleverbot(object):
         return inner
 
 
-class CleverbotAsync(AsyncObject): # lgtm[py/missing-call-to-init]
+class CleverbotAsync(AsyncObject):  # lgtm[py/missing-call-to-init]
     """ Constructs a Cleverbot chat session. Initializes the options
     to connect to Cleverbot.com via a headless Firefox browser using
     playwright, and contains the functions to connect and create chat
@@ -191,7 +191,7 @@ class CleverbotAsync(AsyncObject): # lgtm[py/missing-call-to-init]
                 self.page: object = await self.context.new_page()
                 await self.page.goto(self.url,
                                      timeout=10000,
-                                     wait_until="domcontentloaded")
+                                     wait_until="networkidle")
             except (PwTimeout, BrokenPipeError):
                 await self.page.close()
                 continue
