@@ -1,0 +1,40 @@
+[build-system]
+requires = [
+    "setuptools>=42",
+    "wheel"
+]
+build-backend = "setuptools.build_meta"
+
+
+# Global mypy options:
+
+[tool.mypy]
+python_version = 3.8
+warn_return_any = false
+warn_unused_configs = true
+strict = true
+disallow_subclassing_any = false
+
+
+# Per-module mypy options:
+
+[[tool.mypy.overrides]]
+module = "fake_useragent.*"
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = "playwright.*"
+ignore_missing_imports = true
+
+
+# Pylint options:
+
+[tool.pylint."MESSAGES CONTROL"]
+disable = ["too-few-public-methods",
+            "invalid-overridden-method",
+            "too-many-instance-attributes",
+            "unnecessary-lambda",
+            "attribute-defined-outside-init",
+            "super-init-not-called"]
+
+
