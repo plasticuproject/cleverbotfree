@@ -3,7 +3,7 @@
 [![GPLv3 license](https://img.shields.io/badge/License-GPLv3-blue.svg)](http://perso.crans.org/besson/LICENSE.html)
 [![PyPI version](https://badge.fury.io/py/cleverbotfree.svg)](https://badge.fury.io/py/cleverbotfree)
 [![Downloads](https://pepy.tech/badge/cleverbotfree)](https://pepy.tech/project/cleverbotfree)
-[![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/plasticuproject/cleverbotfree.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/plasticuproject/cleverbotfree/context:python)
+[![CodeQL](https://github.com/plasticuproject/cleverbotfree/actions/workflows/codeql.yml/badge.svg)](https://github.com/plasticuproject/cleverbotfree/actions/workflows/codeql.yml)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=plasticuproject_cleverbotfree&metric=alert_status)](https://sonarcloud.io/dashboard?id=plasticuproject_cleverbotfree)
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=plasticuproject_cleverbotfree&metric=security_rating)](https://sonarcloud.io/dashboard?id=plasticuproject_cleverbotfree)
 # cleverbotfree
