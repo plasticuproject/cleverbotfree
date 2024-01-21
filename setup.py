@@ -1,7 +1,7 @@
 """Setup File"""
 from setuptools import setup  # type: ignore
 
-VERSION = "2.3.5"
+VERSION = "2.3.6"
 
 with open("README.md", "r", encoding="utf-8") as fh:
     LONG_DESCRIPTION = fh.read()

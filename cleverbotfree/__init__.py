@@ -22,8 +22,9 @@ from time import sleep
 from typing import List, Callable, Any
 from functools import wraps
 from playwright.sync_api import sync_playwright
+from playwright.sync_api import TimeoutError as PwSyncTimeout
 from playwright.async_api import async_playwright
-from playwright._impl._api_types import TimeoutError as PwTimeout
+from playwright.async_api import TimeoutError as PwAsyncTimeout
 from fake_useragent import UserAgent
 
 
@@ -69,7 +70,7 @@ class Cleverbot:
                 self.page.goto(self.url,
                                timeout=10000,
                                wait_until="networkidle")
-            except (PwTimeout, BrokenPipeError):
+            except (PwSyncTimeout, BrokenPipeError):
                 self.page.close()
                 continue
             break
@@ -173,7 +174,7 @@ class CleverbotAsync(AsyncObject):  # lgtm[py/missing-call-to-init]
                 await self.page.goto(self.url,
                                      timeout=10000,
                                      wait_until="networkidle")
-            except (PwTimeout, BrokenPipeError):
+            except (PwAsyncTimeout, BrokenPipeError):
                 await self.page.close()
                 continue
             break
